@@ -29,9 +29,38 @@ public class UsersApplication {
 	}
 
 	//PUT
-	@PutMapping
-	public Users update(@RequestBody Users users) {
-		return usersRepository.save(users);
+	@PutMapping ("/api/v1/users/{idUser}")
+	public Users update(@RequestBody Users userToUpdate, @PathVariable Integer idUser) {
+		Optional<Users> userDBOpt = this.usersRepository.findById(idUser);
+		if (userDBOpt.isPresent()) {
+			Users userDB = userDBOpt.get();
+			if (userToUpdate.getFirstName()!= null){
+				userDB.setFirstName(userToUpdate.getFirstName());
+			}
+			if (userToUpdate.getLastName()!= null){
+				userDB.setLastName(userToUpdate.getLastName());
+			}
+			if (userToUpdate.getDateBirth()!= null){
+				userDB.setDateBirth(userToUpdate.getDateBirth());
+			}
+			if (userToUpdate.getAddress()!= null){
+				userDB.setAddress(userToUpdate.getAddress());
+			}
+			if (userToUpdate.getToken()!= null){
+				userDB.setToken(userToUpdate.getToken());
+			}
+			if (userToUpdate.getPassword()!= null){
+				userDB.setPassword(userToUpdate.getPassword());
+			}
+			if (userToUpdate.getMobilePhone()!= null){
+				userDB.setMobilePhone(userToUpdate.getMobilePhone());
+			}
+			if (userToUpdate.getEmail()!= null){
+				userDB.setEmail(userToUpdate.getEmail());
+			}
+			return usersRepository.save(userDB);
+		}
+		throw new RuntimeException("User no encontrado");
 	}
 
 
