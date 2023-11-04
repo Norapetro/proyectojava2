@@ -3,7 +3,6 @@ package com.users;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -39,7 +38,13 @@ public class UsersApplication {
 	//DELETE
 	@DeleteMapping("/api/v1/users/{id}")
 	public void deleteById(@PathVariable Integer id) {
-		usersRepository.deleteById(id); //No retorna nada porque estamos eliminando
+		usersRepository.deleteById(id); //No retorna nada porque estamos eliminando ok
+	}
+	//POST
+	@ResponseStatus
+	@PostMapping ("/api/v1/users")
+	public Users create(@RequestBody Users users) {
+		return usersRepository.save(users);
 	}
 
 }
